@@ -18,7 +18,10 @@ class ToolController extends Controller
                 "value" => auth()->user()->name,
                 "panel" => null,
                 "sortable" => false,
-                "textAlign" => "left"
+                "textAlign" => "left",
+                "extraAttributes" => [
+                    'readonly' => true,
+                ],
             ],
             [
                 "component" => "text-field",
@@ -29,7 +32,10 @@ class ToolController extends Controller
                 "value" => auth()->user()->email,
                 "panel" => null,
                 "sortable" => false,
-                "textAlign" => "left"
+                "textAlign" => "left",
+                "extraAttributes" => [
+                    'readonly' => true,
+                ],
             ],
             [
                 "component" => "password-field",
@@ -62,21 +68,21 @@ class ToolController extends Controller
     public function store()
     {
         request()->validate([
-            'name' => 'required|string',
-            'email' => 'required|email',
-            'password' => 'nullable|string|confirmed'
+//            'name' => 'required|string',
+//            'email' => 'required|email',
+            'password' => 'required|string|confirmed'
         ]);
 
         if(request()->has('password')) {
             auth()->user()->update([
-                'name' => request('name'),
-                'email' => request('email'),
+//                'name' => request('name'),
+//                'email' => request('email'),
                 'password' => bcrypt(request('password')),
             ]);
         } else {
             auth()->user()->update(request()->only('name', 'email'));
         }
 
-        return response()->json(__("Your profile has been updated!"));
+        return response()->json(__("Your password has been updated!"));
     }
 }
